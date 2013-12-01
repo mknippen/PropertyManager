@@ -28,6 +28,7 @@
 		FA5AB6C3183D7CED00928898 /* Unit.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5AB6C2183D7CED00928898 /* Unit.m */; };
 		FA5AB6C6183D7CF500928898 /* Tenant.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5AB6C5183D7CF500928898 /* Tenant.m */; };
 		FA5AB6C9183D84EA00928898 /* ObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5AB6C8183D84EA00928898 /* ObjectViewController.m */; };
+		FA5AB6CC183D9EB100928898 /* ObjectDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5AB6CB183D9EB100928898 /* ObjectDialogViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		FA5AB6C5183D7CF500928898 /* Tenant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tenant.m; sourceTree = "<group>"; };
 		FA5AB6C7183D84EA00928898 /* ObjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectViewController.h; sourceTree = "<group>"; };
 		FA5AB6C8183D84EA00928898 /* ObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectViewController.m; sourceTree = "<group>"; };
+		FA5AB6CA183D9EB100928898 /* ObjectDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectDialogViewController.h; sourceTree = "<group>"; };
+		FA5AB6CB183D9EB100928898 /* ObjectDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectDialogViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +147,8 @@
 				FA5AB69B183D705700928898 /* MasterViewController.m */,
 				FA5AB6C7183D84EA00928898 /* ObjectViewController.h */,
 				FA5AB6C8183D84EA00928898 /* ObjectViewController.m */,
+				FA5AB6CA183D9EB100928898 /* ObjectDialogViewController.h */,
+				FA5AB6CB183D9EB100928898 /* ObjectDialogViewController.m */,
 				FA5AB69D183D705700928898 /* DetailViewController.h */,
 				FA5AB69E183D705700928898 /* DetailViewController.m */,
 				FA5AB6A0183D705700928898 /* Images.xcassets */,
@@ -333,6 +338,7 @@
 				FA5AB69C183D705700928898 /* MasterViewController.m in Sources */,
 				FA5AB6C3183D7CED00928898 /* Unit.m in Sources */,
 				FA5AB68F183D705700928898 /* main.m in Sources */,
+				FA5AB6CC183D9EB100928898 /* ObjectDialogViewController.m in Sources */,
 				FA5AB69F183D705700928898 /* DetailViewController.m in Sources */,
 				FA5AB6C9183D84EA00928898 /* ObjectViewController.m in Sources */,
 			);

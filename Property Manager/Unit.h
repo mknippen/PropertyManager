@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) Building *building;
 @property (nonatomic, strong) Tenant *tenant;
+@property (nonatomic) int sort;
 @property (nonatomic) BOOL vacant;
 @property (nonatomic) int squareFeet;
 @property (nonatomic) int bedrooms;

@@ -8,12 +8,16 @@
 
 #import "AppDelegate.h"
 
+#import "Building.h"
+#import "Unit.h"
+#import "Tenant.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-
+    [self registerSubClasses];
     [Parse setApplicationId:@"nBi1Tbae1DvrL17dhqzXUPRpHIcEsNIUIlWk8HTC" clientKey:@"PJAzojxZ8AMHK50fpDVxKaV8ya4bJMlHFM1vh2Xx"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 
@@ -24,7 +28,14 @@
     }
     return YES;
 }
-							
+
+- (void)registerSubClasses {
+    [Building registerSubclass];
+    [Unit registerSubclass];
+    [Tenant registerSubclass];
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

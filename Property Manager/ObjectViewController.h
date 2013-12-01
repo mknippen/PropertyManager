@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ObjectViewController : UITableViewController
+@class Building;
+
+@interface ObjectViewController : PFQueryTableViewController
+
+@property (nonatomic, strong) NSString *objectType; //Building, Unit or Tenant
+@property (nonatomic, strong) Building *parentObject; 
+
++ (ObjectViewController *)newFromStoryboard;
 
 @end

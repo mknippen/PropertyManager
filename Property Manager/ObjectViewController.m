@@ -11,6 +11,8 @@
 #import "Tenant.h"
 #import "Unit.h"
 #import <QuickDialog/QuickDialog.h>
+#import "ObjectDialogViewController.h"
+#import <Parse/PFQueryTableViewController.h>
 
 @interface ObjectViewController ()
 
@@ -18,25 +20,38 @@
 
 @implementation ObjectViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
++ (ObjectViewController *)newFromStoryboard {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName: @"Main_iPad" bundle:nil];
+    return [storyboard instantiateViewControllerWithIdentifier: @"ObjectViewController"];
 }
 
-- (void)viewDidLoad
-{
+- (NSString *)objectType {
+    if (!_objectType) {
+        _objectType = @"Building"; //default
+    }
+    return _objectType;
+}
+
+- (void)viewDidLoad {
+    self.parseClassName = self.objectType;
+    self.title = [NSString stringWithFormat:@"%@s", self.objectType];
+    self.textKey = @"name";
+    self.pullToRefreshEnabled = YES;
     [super viewDidLoad];
+}
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+- (PFQuery *)queryForTable {
+    PFQuery *query = [super queryForTable];
+    if ([self.objectType isEqualToString:@"Unit"]) {
+        [query orderByAscending:@"sort"];
+        [query whereKey:@"building" equalTo:self.parentObject];
+    }
 
+    return query;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed)];
     self.navigationItem.rightBarButtonItem = addButton;
 }
@@ -44,7 +59,11 @@
 - (void)addButtonPressed {
 
     UINavigationController *navController = self.splitViewController.viewControllers[1];
-    [navController pushViewController:[QuickDialogController controllerForRoot:root] animated:YES];
+    Class objectClass = NSClassFromString(self.objectType);
+    ObjectDialogViewController *dialogVC = [[ObjectDialogViewController alloc] initWithRoot:[objectClass rootElement]];
+    dialogVC.parentObject = self.parentObject;
+    dialogVC.objectType = self.objectType;
+    [navController pushViewController:dialogVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,40 +72,60 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - PFQueryTableViewController
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+- (void)objectsWillLoad {
+    [super objectsWillLoad];
+
+    // This method is called before a PFQuery is fired to get more objects
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+- (void)objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+
+    // This method is called every time objects are loaded from Parse via the PFQuery
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ObjectViewController *objectVC = [ObjectViewController newFromStoryboard];
+    objectVC.parentObject = self.objects[indexPath.row];
+    objectVC.objectType = @"Unit";
+    [self.navigationController pushViewController:objectVC animated:YES];
+}
+
+
+- (PFTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *identifier = @"Cell";
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = object[@"name"];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    if ([self.objectType isEqualToString:@"Building"]) {
+        Building *b = (Building *)object;
+
+        if (b.unitCount <=1) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"1 Unit"];
+        } else {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%i Units", b.unitCount];
+        }
+    } else {
+        cell.detailTextLabel.text = @"";
+
+    }
+
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
 /*
 // Override to support editing the table view.

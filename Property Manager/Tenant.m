@@ -8,6 +8,7 @@
 
 #import "Tenant.h"
 #import <Parse/PFObject+Subclass.h>
+#import <QuickDialog/QuickDialog.h>
 
 @implementation Tenant
 

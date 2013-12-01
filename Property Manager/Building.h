@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSString *zipCode;
 @property (nonatomic, strong) NSArray *units;
 @property (nonatomic, strong) NSString *notes;
+@property (nonatomic) int unitCount;
+
 
 + (NSString *)parseClassName;
 
